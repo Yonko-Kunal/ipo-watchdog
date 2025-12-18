@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Funnel_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Landing/Navbar";
+import Navbar from "@/components/Common/Navbar";
 import { ThemeProvider } from "next-themes";
 
 const funnelSans = Funnel_Sans({

@@ -49,12 +49,13 @@
 :root {
   --background: oklch(0.985 0 0);
   --foreground: oklch(0.2178 0 0);
+  --secondary: oklch(90% 0 0);
 }
 
 .dark {
   --background: oklch(0.2178 0 0);
   --foreground: oklch(0.985 0 0);
-  
+  --secondary: oklch(0.2686 0 0);
 }
 
 @layer base {
