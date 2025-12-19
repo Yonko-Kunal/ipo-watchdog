@@ -41,6 +41,7 @@ const statCards = [
 		value: "1",
 		subValue: "+100% Exp.",
 		subColor: "text-green-500",
+		badge: false,
 		icon: Bell,
 		iconColor: "text-yellow-400",
 	},
@@ -50,6 +51,7 @@ const statCards = [
 		value: "Bullish",
 		subValue: "",
 		subColor: "",
+		badge: false,
 		icon: TrendingUp,
 		iconColor: "text-green-400",
 	},
@@ -59,94 +61,526 @@ const statCards = [
 		value: "+18%",
 		subValue: "+2.5%",
 		subColor: "text-green-500",
+		badge: true,
 		icon: Activity,
 		iconColor: "text-yellow-400",
 	},
 ];
 
-// Dummy Data for IPO List
+// IPO Data from User
 const ipoData = [
 	{
-		id: 1,
-		company: "TechNova Solutions",
-		sector: "Technology",
-		initial: "T",
-		color: "bg-blue-600",
-		price: "₹450 - ₹480",
-		issueSize: "₹500 Cr",
-		openDate: "12 Oct",
-		closeDate: "15 Oct",
-		gmp: "15%",
-		gmpStatus: "Strong",
-		trend: "up", // up, down, flat
+		name: "ICICI Prudential AMC",
+		inittial: "I",
+		status: "Closed",
+		type: "Mainboard",
+		ipoPrice: "₹2161 to ₹2165",
+		issueSize: "Approx ₹10,602.65 Crores",
+		date: "12-16 Dec",
+		gmp: [
+			{
+				currentGmp: "₹530",
+				currentGmpPercentage: "24.48%",
+			},
+		],
 	},
 	{
-		id: 2,
-		company: "GreenEnergy Ltd",
-		sector: "Energy",
-		initial: "G",
-		color: "bg-green-600",
-		price: "₹120 - ₹125",
-		issueSize: "₹1200 Cr",
-		openDate: "13 Oct",
-		closeDate: "16 Oct",
-		gmp: "5%",
-		gmpStatus: "Mild",
-		trend: "up",
+		name: "KSH International",
+		inittial: "K",
+		status: "Closed",
+		type: "Mainboard",
+		ipoPrice: "₹365 to ₹384",
+		issueSize: "Approx ₹710.00 Crores",
+		date: "16-18 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
 	},
 	{
-		id: 3,
-		company: "FinServe Corp",
-		sector: "Finance",
-		initial: "F",
-		color: "bg-purple-600",
-		price: "₹800 - ₹850",
-		issueSize: "₹2500 Cr",
-		openDate: "14 Oct",
-		closeDate: "17 Oct",
-		gmp: "0%",
-		gmpStatus: "Flat",
-		trend: "flat",
+		name: "Gujarat Kidney",
+		inittial: "G",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹108 to ₹114",
+		issueSize: "Approx ₹250.80 Crores",
+		date: "22-24 Dec",
+		gmp: [
+			{
+				currentGmp: "₹10",
+				currentGmpPercentage: "8.77%",
+			},
+		],
 	},
 	{
-		id: 4,
-		company: "AutoMotive Gears",
-		sector: "Automotive",
-		initial: "A",
-		color: "bg-orange-600",
-		price: "₹210 - ₹220",
-		issueSize: "₹300 Cr",
-		openDate: "10 Oct",
-		closeDate: "12 Oct",
-		gmp: "45%",
-		gmpStatus: "High",
-		trend: "up",
+		name: "Clean Max Enviro",
+		inittial: "C",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹5,200 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
 	},
 	{
-		id: 5,
-		company: "Urban Infra",
-		sector: "Construction",
-		initial: "U",
-		color: "bg-red-600",
-		price: "₹65 - ₹70",
-		issueSize: "₹800 Cr",
-		openDate: "18 Oct",
-		closeDate: "21 Oct",
-		gmp: "-2%",
-		gmpStatus: "Weak",
-		trend: "down",
+		name: "Sunshine Pictures",
+		inittial: "S",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹[.] Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Hero Fincorp",
+		inittial: "H",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹3,668.13 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Orient Cables",
+		inittial: "O",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹700 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Curefoods",
+		inittial: "C",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹[.] Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Hero Motors",
+		inittial: "H",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹1,200 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Priority Jewels",
+		inittial: "P",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹[.] Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Tea Post",
+		inittial: "T",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹[.] Crores, 2,85,00,000 Equity Shares",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Clean Max",
+		inittial: "C",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹5,200 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Juniper Green Energy",
+		inittial: "J",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹3,000 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Omnitech Engineering",
+		inittial: "O",
+		status: "Upcoming",
+		type: "Mainboard",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹850 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Ashwini Container Movers",
+		inittial: "A",
+		status: "Closed",
+		type: "SME",
+		ipoPrice: "₹135 to ₹142",
+		issueSize: "Approx ₹71.00 Crores",
+		date: "12-16 Dec",
+		gmp: [
+			{
+				currentGmp: "₹3",
+				currentGmpPercentage: "2.11%",
+			},
+		],
+	},
+	{
+		name: "Stanbik Agro",
+		inittial: "S",
+		status: "Closed",
+		type: "SME",
+		ipoPrice: "₹30",
+		issueSize: "Approx ₹12.28 Crores",
+		date: "12-16 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Exim Routes",
+		inittial: "E",
+		status: "Closed",
+		type: "SME",
+		ipoPrice: "₹83 to ₹88",
+		issueSize: "Approx ₹43.73 Crores",
+		date: "12-16 Dec",
+		gmp: [
+			{
+				currentGmp: "₹32",
+				currentGmpPercentage: "36.36%",
+			},
+		],
+	},
+	{
+		name: "Neptune Logitek",
+		inittial: "N",
+		status: "Closed",
+		type: "SME",
+		ipoPrice: "₹126",
+		issueSize: "Approx ₹46.62 Crores",
+		date: "15-17 Dec",
+		gmp: [
+			{
+				currentGmp: "₹1",
+				currentGmpPercentage: "0.79%",
+			},
+		],
+	},
+	{
+		name: "MARC Technocrats",
+		inittial: "M",
+		status: "Open",
+		type: "SME",
+		ipoPrice: "₹88 to ₹93",
+		issueSize: "Approx ₹42.59 Crores",
+		date: "17-19 Dec",
+		gmp: [
+			{
+				currentGmp: "₹4",
+				currentGmpPercentage: "4.30%",
+			},
+		],
+	},
+	{
+		name: "Global Ocean",
+		inittial: "G",
+		status: "Open",
+		type: "SME",
+		ipoPrice: "₹74 to ₹78",
+		issueSize: "Approx ₹30.41 Crores",
+		date: "17-19 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Phytochem Remedies",
+		inittial: "P",
+		status: "Open",
+		type: "SME",
+		ipoPrice: "₹98",
+		issueSize: "Approx ₹38.22 Crores",
+		date: "18-22 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Shyam Dhani",
+		inittial: "S",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹65 to ₹70",
+		issueSize: "Approx ₹38.49 Crores",
+		date: "22-24 Dec",
+		gmp: [
+			{
+				currentGmp: "₹40",
+				currentGmpPercentage: "57.14%",
+			},
+		],
+	},
+	{
+		name: "Dachepalli Publishers",
+		inittial: "D",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹100 to ₹102",
+		issueSize: "Approx ₹40.39 Crores",
+		date: "22-24 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "EPW India",
+		inittial: "E",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹95 to ₹97",
+		issueSize: "Approx ₹31.81 Crores",
+		date: "22-24 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Sundrex Oil",
+		inittial: "S",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹81 to ₹86",
+		issueSize: "Approx ₹32.25 Crores",
+		date: "22-24 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Admach Systems",
+		inittial: "A",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹227 to ₹239",
+		issueSize: "Approx ₹42.60 Crores",
+		date: "23-26 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Apollo Techno Industries",
+		inittial: "A",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹123 to ₹130",
+		issueSize: "Approx ₹47.96 Crores",
+		date: "23-26 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Nanta Tech",
+		inittial: "N",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹209 to ₹220",
+		issueSize: "Approx ₹31.81 Crores",
+		date: "23-26 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Dhara Rail Projects",
+		inittial: "D",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹120 to ₹126",
+		issueSize: "Approx ₹50.20 Crores",
+		date: "23-26 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Bai Kakaji Polymers",
+		inittial: "B",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹177 to ₹186",
+		issueSize: "Approx ₹105.17 Crores",
+		date: "23-26 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "E to E Transportation",
+		inittial: "E",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹164 to ₹174",
+		issueSize: "Approx ₹84.22 Crores",
+		date: "26-30 Dec",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Infraprime Logistics",
+		inittial: "I",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹[.] Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
+	},
+	{
+		name: "Victory Electric",
+		inittial: "V",
+		status: "Upcoming",
+		type: "SME",
+		ipoPrice: "₹-",
+		issueSize: "Approx ₹40.66 Crores",
+		date: "2025",
+		gmp: [
+			{
+				currentGmp: "₹0",
+				currentGmpPercentage: "0%",
+			},
+		],
 	},
 ];
 
-const getGmpBadgeStyle = (trend: string) => {
-	switch (trend) {
-		case "up":
-			return "bg-green-500/15 text-green-500 hover:bg-green-500/25 border-green-500/20";
-		case "down":
-			return "bg-red-500/15 text-red-500 hover:bg-red-500/25 border-red-500/20";
-		default:
-			return "bg-blue-500/15 text-blue-500 hover:bg-blue-500/25 border-blue-500/20";
-	}
+const getGmpInfo = (
+	gmp: { currentGmp: string; currentGmpPercentage: string }[]
+) => {
+	const current = gmp[0];
+	const value = parseFloat(current.currentGmp.replace(/[^0-9.-]/g, "")) || 0;
+
+	let trend = "flat";
+	if (value > 0) trend = "up";
+	if (value < 0) trend = "down";
+
+	return {
+		trend,
+		value: current.currentGmp,
+		percentage: current.currentGmpPercentage,
+	};
 };
 
 const getTrendIcon = (trend: string) => {
@@ -157,6 +591,28 @@ const getTrendIcon = (trend: string) => {
 			return <ArrowDownRight className="w-4 h-4 mr-1" />;
 		default:
 			return <Minus className="w-4 h-4 mr-1" />;
+	}
+};
+
+const getGmpBadgeStyle = (trend: string) => {
+	switch (trend) {
+		case "up":
+			return "bg-green-500/15 text-green-500 hover:bg-green-500/25 border-green-500/20";
+		case "down":
+			return "bg-red-500/15 text-red-500 hover:bg-red-500/25 border-red-500/20";
+		default:
+			return "bg-zinc-500/15 text-zinc-400 hover:bg-zinc-500/25 border-zinc-500/20";
+	}
+};
+
+const getRowStyle = (status: string) => {
+	switch (status) {
+		case "Open":
+			return "bg-green-500/10 hover:bg-green-500/20";
+		case "Closed":
+			return "bg-red-500/10 hover:bg-red-500/20";
+		default:
+			return "hover:bg-white/5";
 	}
 };
 
@@ -197,14 +653,19 @@ const Dashboard = () => {
 									)}
 								</div>
 
-								<div className="mt-4 flex items-baseline gap-2">
+								<div className="mt-4 flex items-center gap-2">
 									<h2 className="text-3xl font-bold text-white">
 										{card.value}
 									</h2>
 									{card.subValue && (
-										<span className={`text-sm font-medium ${card.subColor}`}>
-											{card.subValue}
-										</span>
+										<Badge
+											variant="outline"
+											className="text-sm font-medium border-green-500/15 bg-green-500/10"
+										>
+											<span className={`text-sm font-medium ${card.subColor}`}>
+												{card.subValue}
+											</span>
+										</Badge>
 									)}
 								</div>
 							</div>
@@ -220,8 +681,8 @@ const Dashboard = () => {
 			<div className="rounded-[2rem] border border-white/5 bg-secondary text-card-foreground pb-6 pt-0 px-0">
 				<Table>
 					<TableHeader>
-						<TableRow className="border-b border-white/5 hover:bg-secondary">
-							<TableHead className="w-[300px] text-xs font-bold text-zinc-500 uppercase tracking-wider py-4">
+						<TableRow className="border-b border-white/5">
+							<TableHead className="w-[300px] text-xs font-bold text-zinc-500 uppercase tracking-wider py-4 pl-6">
 								COMPANY
 							</TableHead>
 							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
@@ -231,80 +692,77 @@ const Dashboard = () => {
 								ISSUE SIZE
 							</TableHead>
 							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
-								OPEN DATE
-							</TableHead>
-							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
-								CLOSE DATE
+								IPO DATE
 							</TableHead>
 							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
 								GMP (PREMIUM)
 							</TableHead>
-							<TableHead className="text-right text-xs font-bold text-zinc-500 uppercase tracking-wider">
+							<TableHead className="text-right text-xs font-bold text-zinc-500 uppercase tracking-wider pr-6">
 								ACTION
 							</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{ipoData.map((ipo) => (
-							<TableRow
-								key={ipo.id}
-								className="border-b border-white/5 hover:bg-white/2"
-							>
-								<TableCell className="py-4">
-									<div className="flex items-center gap-4">
-										<Avatar className="h-10 w-10 border border-white/10">
-											<AvatarImage src="" alt={ipo.company} />
-											<AvatarFallback
-												className={`${ipo.color} text-white font-bold`}
-											>
-												{ipo.initial}
-											</AvatarFallback>
-										</Avatar>
-										<div className="flex flex-col gap-1">
-											<span className="font-bold text-white text-base">
-												{ipo.company}
-											</span>
-											<span className="text-xs text-zinc-500">
-												{ipo.sector}
-											</span>
+						{ipoData.map((ipo, index) => {
+							const gmpInfo = getGmpInfo(ipo.gmp);
+							return (
+								<TableRow
+									key={index}
+									className={`border-b border-white/5 ${getRowStyle(
+										ipo.status
+									)}`}
+								>
+									<TableCell className="py-4 pl-6">
+										<div className="flex items-center gap-4">
+											<Avatar className="h-10 w-10">
+												<AvatarImage src="" alt={ipo.name} />
+												<AvatarFallback className="bg-zinc-800 text-white font-bold">
+													{ipo.inittial}
+												</AvatarFallback>
+											</Avatar>
+											<div className="flex flex-col gap-1">
+												<span className="font-bold text-white text-base">
+													{ipo.name}
+												</span>
+												<span className="text-xs text-zinc-500">
+													{ipo.type}
+												</span>
+											</div>
 										</div>
-									</div>
-								</TableCell>
-								<TableCell className="font-medium text-zinc-300">
-									{ipo.price}
-								</TableCell>
-								<TableCell className="font-medium text-zinc-300">
-									{ipo.issueSize}
-								</TableCell>
-								<TableCell className="font-medium text-zinc-300">
-									{ipo.openDate}
-								</TableCell>
-								<TableCell className="font-medium text-zinc-300">
-									{ipo.closeDate}
-								</TableCell>
-								<TableCell>
-									<Badge
-										variant="outline"
-										className={`gap-1 rounded-full px-3 py-1 text-xs font-medium border ${getGmpBadgeStyle(
-											ipo.trend
-										)}`}
-									>
-										{getTrendIcon(ipo.trend)}
-										{ipo.gmp} ({ipo.gmpStatus})
-									</Badge>
-								</TableCell>
-								<TableCell className="text-right">
-									<Button
-										size="icon"
-										variant="ghost"
-										className="h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400"
-									>
-										<ArrowRight className="h-4 w-4" />
-										<span className="sr-only">View Details</span>
-									</Button>
-								</TableCell>
-							</TableRow>
-						))}
+									</TableCell>
+									<TableCell className="font-medium text-zinc-300">
+										{ipo.ipoPrice}
+									</TableCell>
+									<TableCell className="font-medium text-zinc-300">
+										{ipo.issueSize}
+									</TableCell>
+									<TableCell className="font-medium text-zinc-300">
+										{ipo.date}
+									</TableCell>
+									<TableCell>
+										<Badge
+											variant="outline"
+											className={`gap-1 rounded-full px-3 py-1 text-xs font-medium border ${getGmpBadgeStyle(
+												gmpInfo.trend
+											)}`}
+										>
+											{getTrendIcon(gmpInfo.trend)}
+											{gmpInfo.value} ({gmpInfo.percentage})
+										</Badge>
+									</TableCell>
+									<TableCell className="text-right pr-6">
+										<Button
+											size="icon"
+											variant="ghost"
+											className="h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400"
+										>
+											<ArrowRight className="h-4 w-4" />
+											<span className="sr-only">View Details</span>
+										</Button>
+									</TableCell>
+								</TableRow>
+							);
+						})}
 					</TableBody>
 				</Table>
 			</div>

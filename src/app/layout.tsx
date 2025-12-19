@@ -22,7 +22,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className={`${funnelSans.className} antialiased`}>
+			<body
+				className={`${funnelSans.className} antialiased`}
+				suppressHydrationWarning
+			>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
