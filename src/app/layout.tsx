@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Funnel_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Common/Navbar";
+import Footer from "@/components/Common/Footer";
 import { ThemeProvider } from "next-themes";
 
 const funnelSans = Funnel_Sans({
@@ -23,7 +24,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${funnelSans.className} antialiased`}
+				className={`${funnelSans.className} antialiased min-h-screen flex flex-col`}
 				suppressHydrationWarning
 			>
 				<ThemeProvider
@@ -34,7 +35,8 @@ export default function RootLayout({
 					storageKey="theme"
 				>
 					<Navbar />
-					{children}
+					<div className="flex-1">{children}</div>
+					<Footer />
 				</ThemeProvider>
 			</body>
 		</html>

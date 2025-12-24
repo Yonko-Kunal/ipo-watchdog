@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Container from "../Common/Container";
+import Container from "@/components/Common/Container";
 import {
 	Table,
 	TableBody,
@@ -115,7 +115,25 @@ const getGmpBadgeStyle = (percentageVal: number) => {
 	return "bg-red-500/15 text-red-500 hover:bg-red-500/25 border-red-500/20";
 };
 
-const getRowStyle = (status: string) => {
+const isListingToday = (dateRange: string) => {
+	if (!dateRange) return false;
+	const parts = dateRange.split("-");
+	const endDateStr = parts[parts.length - 1].trim();
+
+	const today = new Date();
+	const endDate = new Date(endDateStr);
+
+	return (
+		endDate.getDate() === today.getDate() &&
+		endDate.getMonth() === today.getMonth() &&
+		endDate.getFullYear() === today.getFullYear()
+	);
+};
+
+const getRowStyle = (status: string, date: string) => {
+	if (isListingToday(date)) {
+		return "bg-sky-500/10 hover:bg-sky-500/20";
+	}
 	switch (status) {
 		case "Open":
 			return "bg-green-500/10 hover:bg-green-500/20";
@@ -291,7 +309,8 @@ const Dashboard = () => {
 									<TableRow
 										key={index}
 										className={`border-b border-white/5 ${getRowStyle(
-											ipo.status
+											ipo.status,
+											ipo.date
 										)}`}
 									>
 										<TableCell className="py-4 pl-6">
