@@ -7,7 +7,7 @@ import Container from "@/components/Common/Container";
 const Navbar = () => {
 	const navLinks = [
 		{ name: "Dashboard", href: "/dashboard" },
-		{ name: "Upcoming", href: "/upcoming" },
+		{ name: "Upcoming", href: "/upcoming-ipos" },
 		{ name: "News", href: "/news" },
 		{ name: "About", href: "/about" },
 	];
