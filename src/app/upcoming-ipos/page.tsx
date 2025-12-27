@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Container from "@/components/Common/Container";
 import {
 	Table,
@@ -12,21 +10,18 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-	ArrowRight,
 	TrendingUp,
-	Calendar,
+	Lock,
 	Bell,
 	Download,
 	Activity,
-	ArrowUpRight,
-	ArrowDownRight,
-	Minus,
-	Loader2,
+	Calendar,
 } from "lucide-react";
-import axios from "axios";
-import { IPOItem } from "@/lib/ipoScraper";
+import { getCachedActiveIPOs, IPOItem } from "@/lib/ipoScraper";
+import IPORow from "@/components/Dashboard/IPORow";
+
+export const dynamic = "force-dynamic";
 
 // Dummy Data for Top Stats (Static parts)
 const initialStatCards = [
@@ -72,77 +67,9 @@ const initialStatCards = [
 	},
 ];
 
-const getGmpInfo = (
-	gmp: { currentGmp: string; currentGmpPercentage: string }[]
-) => {
-	const current = gmp[0] || { currentGmp: "₹0", currentGmpPercentage: "0%" };
-	const value = parseFloat(current.currentGmp.replace(/[^0-9.-]/g, "")) || 0;
-
-	let trend = "flat";
-	if (value > 0) trend = "up";
-	if (value < 0) trend = "down";
-
-	// Parse percentage string to number
-	const percentageVal =
-		parseFloat(current.currentGmpPercentage.replace(/[^0-9.-]/g, "")) || 0;
-
-	return {
-		trend,
-		value: current.currentGmp,
-		percentage: current.currentGmpPercentage,
-		percentageVal,
-	};
-};
-
-const getTrendIcon = (trend: string) => {
-	switch (trend) {
-		case "up":
-			return <ArrowUpRight className="w-4 h-4 mr-1" />;
-		case "down":
-			return <ArrowDownRight className="w-4 h-4 mr-1" />;
-		default:
-			return <Minus className="w-4 h-4 mr-1" />;
-	}
-};
-
-const getGmpBadgeStyle = (percentageVal: number) => {
-	if (percentageVal === 0) {
-		return "bg-zinc-500/15 text-zinc-400 hover:bg-zinc-500/25 border-zinc-500/20";
-	}
-	if (percentageVal > 20) {
-		return "bg-green-500/15 text-green-500 hover:bg-green-500/25 border-green-500/20";
-	}
-	return "bg-red-500/15 text-red-500 hover:bg-red-500/25 border-red-500/20";
-};
-
-const UpcomingIPOPage = () => {
-	const [data, setData] = useState<IPOItem[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-
-	const fetchIPOs = async () => {
-		try {
-			setLoading(true);
-			const response = await axios.get("/api/ipo");
-			if (response.data.success) {
-				// Filter only Upcoming IPOs (both Mainboard and SME)
-				const upcomingIPOs = response.data.data.filter(
-					(ipo: IPOItem) => ipo.status === "Upcoming"
-				);
-				setData(upcomingIPOs);
-			} else {
-				setError("Failed to fetch IPO data");
-			}
-		} catch (err) {
-			setError("Something went wrong. Please try again later.");
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		fetchIPOs();
-	}, []);
+const UpcomingIPOPage = async () => {
+	const allData = await getCachedActiveIPOs();
+	const data = allData.filter((ipo) => ipo.status === "Upcoming");
 
 	// Calculate dynamic stats
 	const totalUpcoming = data.length;
@@ -178,7 +105,7 @@ const UpcomingIPOPage = () => {
 				<Button
 					variant="outline"
 					className="gap-2 rounded-full cursor-pointer"
-					onClick={() => window.print()} // Simple export for now
+					// onClick={() => window.print()}
 				>
 					<Download className="w-4 h-4 text-zinc-400" /> Export Data
 				</Button>
@@ -201,11 +128,7 @@ const UpcomingIPOPage = () => {
 
 								<div className="mt-4 flex items-center gap-2">
 									<h2 className="text-3xl font-bold text-white">
-										{loading ? (
-											<Loader2 className="h-6 w-6 animate-spin" />
-										) : (
-											card.value
-										)}
+										{card.value}
 									</h2>
 									{card.subValue && (
 										<Badge
@@ -247,101 +170,17 @@ const UpcomingIPOPage = () => {
 							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
 								GMP (PREMIUM)
 							</TableHead>
-							<TableHead className="text-right text-xs font-bold text-zinc-500 uppercase tracking-wider pr-6">
-								ACTION
-							</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{loading ? (
+						{data.length === 0 ? (
 							<TableRow>
-								<TableCell colSpan={6} className="h-48 text-center">
-									<div className="flex flex-col items-center justify-center gap-2">
-										<Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
-										<p className="text-zinc-500">Fetching latest IPO data...</p>
-									</div>
-								</TableCell>
-							</TableRow>
-						) : error ? (
-							<TableRow>
-								<TableCell colSpan={6} className="h-48 text-center">
-									<div className="flex flex-col items-center justify-center gap-2">
-										<p className="text-red-400 font-medium">{error}</p>
-										<Button
-											variant="outline"
-											onClick={fetchIPOs}
-											className="mt-2"
-										>
-											Retry
-										</Button>
-									</div>
-								</TableCell>
-							</TableRow>
-						) : data.length === 0 ? (
-							<TableRow>
-								<TableCell colSpan={6} className="h-48 text-center">
+								<TableCell colSpan={5} className="h-48 text-center">
 									<p className="text-zinc-500">No Upcoming IPOs found.</p>
 								</TableCell>
 							</TableRow>
 						) : (
-							data.map((ipo, index) => {
-								const gmpInfo = getGmpInfo(ipo.gmp);
-								return (
-									<TableRow
-										key={index}
-										className="border-b border-white/5 hover:bg-white/5"
-									>
-										<TableCell className="py-4 pl-6">
-											<div className="flex items-center gap-4">
-												<Avatar className="h-10 w-10">
-													<AvatarImage src="" alt={ipo.name} />
-													<AvatarFallback className="bg-zinc-800 text-white font-bold">
-														{ipo.inittial}
-													</AvatarFallback>
-												</Avatar>
-												<div className="flex flex-col gap-1">
-													<span className="font-bold text-white text-base">
-														{ipo.name}
-													</span>
-													<span className="text-xs text-zinc-500">
-														{ipo.type}
-													</span>
-												</div>
-											</div>
-										</TableCell>
-										<TableCell className="font-medium text-zinc-300">
-											{ipo.ipoPrice}
-										</TableCell>
-										<TableCell className="font-medium text-zinc-300">
-											{ipo.issueSize}
-										</TableCell>
-										<TableCell className="font-medium text-zinc-300">
-											{ipo.date}
-										</TableCell>
-										<TableCell>
-											<Badge
-												variant="outline"
-												className={`gap-1 rounded-full px-3 py-1 text-xs font-medium border ${getGmpBadgeStyle(
-													gmpInfo.percentageVal
-												)}`}
-											>
-												{getTrendIcon(gmpInfo.trend)}
-												{gmpInfo.value} ({gmpInfo.percentage})
-											</Badge>
-										</TableCell>
-										<TableCell className="text-right pr-6">
-											<Button
-												size="icon"
-												variant="ghost"
-												className="h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 text-zinc-400"
-											>
-												<ArrowRight className="h-4 w-4" />
-												<span className="sr-only">View Details</span>
-											</Button>
-										</TableCell>
-									</TableRow>
-								);
-							})
+							data.map((ipo, index) => <IPORow key={index} ipo={ipo} />)
 						)}
 					</TableBody>
 				</Table>

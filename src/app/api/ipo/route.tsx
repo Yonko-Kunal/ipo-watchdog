@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getActiveIPOs } from "../../../lib/ipoScraper";
+import { getCachedActiveIPOs } from "../../../lib/ipoScraper";
 
 // Force this route to be dynamic (not cached forever) so you get fresh data
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-	const ipos = await getActiveIPOs();
+	const ipos = await getCachedActiveIPOs();
 
 	if (ipos.length === 0) {
 		return NextResponse.json(
