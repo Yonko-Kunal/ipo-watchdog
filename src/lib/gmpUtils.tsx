@@ -36,7 +36,7 @@ export const getTrendIcon = (trend: string) => {
 
 export const getGmpBadgeStyle = (percentageVal: number) => {
 	if (percentageVal === 0) {
-		return "bg-zinc-500/15 text-zinc-400 hover:bg-zinc-500/25 border-zinc-500/20";
+		return "bg-neutral-500/15 text-neutral-400 hover:bg-neutral-500/25 border-neutral-500/20";
 	}
 	if (percentageVal > 20) {
 		return "bg-green-500/15 text-green-500 hover:bg-green-500/25 border-green-500/20";

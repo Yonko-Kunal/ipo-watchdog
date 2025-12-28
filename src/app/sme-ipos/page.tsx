@@ -39,16 +39,6 @@ const initialStatCards = [
 		iconColor: "text-yellow-400",
 	},
 	{
-		id: 3,
-		label: "Market Sentiment",
-		value: "Bullish",
-		subValue: "",
-		subColor: "",
-		badge: false,
-		icon: TrendingUp,
-		iconColor: "text-green-400",
-	},
-	{
 		id: 4,
 		label: "Avg GMP",
 		value: "+18%",
@@ -74,61 +64,51 @@ const SMEIPOPage = async () => {
 	});
 
 	return (
-		<Container className="py-10 space-y-8 text-white">
+		<Container className="py-10 space-y-8 text-foreground">
 			{/* Header Section */}
 			<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 				<div>
-					<h1 className="text-3xl font-bold tracking-tight">SME IPO Market</h1>
-					<p className="text-muted-foreground mt-1 max-w-xl">
-						Real-time tracking of SME Initial Public Offerings. Stay updated
-						with the latest GMP trends and listing gains.
-					</p>
+					<h1 className="text-3xl font-bold tracking-tight text-foreground">
+						SME IPO Market
+					</h1>
 				</div>
 				<Button
 					variant="outline"
-					className="gap-2 rounded-full cursor-pointer"
+					className="gap-2 rounded-full cursor-pointer text-foreground"
 					// onClick={() => window.print()}
 				>
-					<Download className="w-4 h-4 text-zinc-400" /> Export Data
+					<Download className="w-4 h-4 text-foreground" /> Export Data
 				</Button>
 			</div>
 
 			{/* Top Section - Stats Cards */}
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{statCards.map((card) => (
 					<div
 						key={card.id}
-						className="bg-secondary text-card-foreground rounded-[2rem] border border-white/5 shadow-sm p-6 relative overflow-hidden"
+						className="bg-secondary text-card-foreground rounded-4xl border border-foreground/15 dark:border-foreground/5 p-6 relative overflow-hidden"
 					>
-						<div className="flex justify-between items-start">
-							<div>
-								<div className="flex items-center gap-2">
-									<p className="text-sm font-medium text-zinc-400">
-										{card.label}
-									</p>
-									{card.id === 1 && (
-										<Lock className="w-3 h-3 text-yellow-500 opacity-80" />
-									)}
-								</div>
-
-								<div className="mt-4 flex items-center gap-2">
-									<h2 className="text-3xl font-bold text-white">
-										{card.value}
-									</h2>
-									{card.subValue && (
-										<Badge
-											variant="outline"
-											className="text-sm font-medium border-green-500/15 bg-green-500/10"
-										>
-											<span className={`text-sm font-medium ${card.subColor}`}>
-												{card.subValue}
-											</span>
-										</Badge>
-									)}
-								</div>
+						<div className="flex justify-between items-center">
+							<div className="flex items-center gap-2">
+								<p className="text-sm font-medium text-muted-foreground">
+									{card.label}
+								</p>
 							</div>
-							<div className="p-2 rounded-full bg-white/5">
-								<card.icon className={`w-5 h-5 ${card.iconColor}`} />
+
+							<div className="flex items-center gap-2">
+								<h2 className="text-2xl font-bold text-foreground">
+									{card.value}
+								</h2>
+								{card.subValue && (
+									<Badge
+										variant="outline"
+										className="text-sm font-medium border-green-500/15 bg-green-500/10"
+									>
+										<span className={`text-sm font-medium ${card.subColor}`}>
+											{card.subValue}
+										</span>
+									</Badge>
+								)}
 							</div>
 						</div>
 					</div>
@@ -136,23 +116,23 @@ const SMEIPOPage = async () => {
 			</div>
 
 			{/* Bottom Section - IPO List Table */}
-			<div className="rounded-[2rem] border border-white/5 bg-secondary text-card-foreground pb-6 pt-0 px-0 min-h-[400px]">
+			<div className="rounded-[2rem] border border-foreground/15 dark:border-foreground/5 bg-secondary text-card-foreground pb-6 pt-0 px-0 min-h-[400px]">
 				<Table>
 					<TableHeader>
-						<TableRow className="border-b border-white/5">
-							<TableHead className="w-[300px] text-xs font-bold text-zinc-500 uppercase tracking-wider py-4 pl-6">
+						<TableRow className="border-b border-foreground/15 dark:border-foreground/5">
+							<TableHead className="w-[300px] text-xs font-bold text-muted-foreground uppercase tracking-wider py-4 pl-6">
 								COMPANY
 							</TableHead>
-							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
 								IPO PRICE
 							</TableHead>
-							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
 								ISSUE SIZE
 							</TableHead>
-							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
 								IPO DATE
 							</TableHead>
-							<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider">
+							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
 								GMP (PREMIUM)
 							</TableHead>
 						</TableRow>
@@ -161,7 +141,7 @@ const SMEIPOPage = async () => {
 						{data.length === 0 ? (
 							<TableRow>
 								<TableCell colSpan={5} className="h-48 text-center">
-									<p className="text-zinc-500">No SME IPOs found.</p>
+									<p className="text-muted-foreground">No SME IPOs found.</p>
 								</TableCell>
 							</TableRow>
 						) : (

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Funnel_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/components/Common/theme-provider";
 
-const funnelSans = Funnel_Sans({
-	variable: "--font-funnel-sans",
+const inter = Inter({
+	variable: "--font-inter",
 	weight: ["400", "500", "600", "700"],
 	subsets: ["latin"],
 });
@@ -24,7 +24,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${funnelSans.className} antialiased min-h-screen flex flex-col`}
+				className={`${inter.className} antialiased min-h-screen flex flex-col`}
 				suppressHydrationWarning
 			>
 				<ThemeProvider

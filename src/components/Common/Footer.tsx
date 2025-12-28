@@ -4,28 +4,28 @@ import Link from "next/link";
 
 const Footer = () => {
 	return (
-		<div className="bottom-0 w-full border-t border-white/10">
-			<Container className="py-8">
-				<div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-2">
-					<p className="text-neutral-500 text-sm">
+		<div className="bottom-0 w-full border-t border-foreground/15 dark:border-foreground/5">
+			<Container className="md:py-8 py-4">
+				<div className="flex flex-col md:flex-row justify-between items-center gap-4 md:pt-2 pt-1">
+					<p className="text-muted-foreground md:text-sm text-xs">
 						&copy; {new Date().getFullYear()} IPO Watchdog. All rights reserved.
 					</p>
-					<div className="flex items-center gap-6">
+					<div className="flex items-center md:gap-6 gap-3">
 						<Link
 							href="/privacy"
-							className="text-neutral-500 hover:text-neutral-400 text-sm transition-colors"
+							className="text-muted-foreground hover:text-neutral-400 md:text-sm text-xs transition-colors"
 						>
 							Privacy Policy
 						</Link>
 						<Link
 							href="/terms"
-							className="text-neutral-500 hover:text-neutral-400 text-sm transition-colors"
+							className="text-muted-foreground hover:text-neutral-400 md:text-sm text-xs transition-colors"
 						>
 							Terms of Service
 						</Link>
 						<Link
 							href="/contact"
-							className="text-neutral-500 hover:text-neutral-400 text-sm transition-colors"
+							className="text-muted-foreground hover:text-neutral-400 md:text-sm text-xs transition-colors"
 						>
 							Contact
 						</Link>

@@ -10,7 +10,7 @@ import {
 	TableHead,
 	TableHeader,
 } from "@/components/ui/table";
-import { FileText, Loader2, ArrowLeft, Download } from "lucide-react";
+import { WandSparkles, Loader2, ArrowLeft, Download } from "lucide-react";
 import Link from "next/link";
 import { getCachedIPOBySlug, IPOItem } from "@/lib/ipoScraper";
 
@@ -31,10 +31,10 @@ export default async function IPODetailsPage({
 
 	if (!ipoData) {
 		return (
-			<Container className="py-20 text-center text-white">
+			<Container className="py-20 text-center text-foreground">
 				<h1 className="text-2xl font-bold">IPO Not Found</h1>
 				<Link href="/dashboard">
-					<Button variant="link" className="text-zinc-400 mt-4">
+					<Button variant="link" className="text-muted-foreground mt-4">
 						<ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
 					</Button>
 				</Link>
@@ -43,19 +43,19 @@ export default async function IPODetailsPage({
 	}
 
 	return (
-		<Container className="py-10 space-y-8 text-white min-h-screen">
+		<Container className="py-10 space-y-8 text-foreground min-h-screen">
 			{/* Breadcrumb / Back */}
 			<Link
 				href="/dashboard"
-				className="inline-flex items-center text-sm text-zinc-500 hover:text-white transition-colors"
+				className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
 			>
 				<ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
 			</Link>
 
 			{/* Header Section */}
-			<div className="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-white/10 pb-8">
+			<div className="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-foreground/15 dark:border-foreground/5 pb-8">
 				<div className="space-y-4 max-w-3xl">
-					<div className="flex items-center gap-3">
+					<div className="flex md:flex-row flex-col md:items-center items-start gap-3">
 						<h1 className="text-4xl font-bold tracking-tight">
 							{ipoData.name} IPO Details
 						</h1>
@@ -73,7 +73,7 @@ export default async function IPODetailsPage({
 														}
                             ${
 															ipoData.status === "Upcoming"
-																? "bg-zinc-500/20 text-zinc-400 border-zinc-500/20"
+																? "bg-neutral-500/20 text-neutral-400 border-neutral-500/20"
 																: ""
 														}
                         `}
@@ -84,13 +84,13 @@ export default async function IPODetailsPage({
 				</div>
 
 				<Button
-					variant="outline"
-					className="gap-2 rounded-full border-white/10 hover:bg-white/5"
+					variant="dashed"
+					className="gap-2 rounded-2xl cursor-pointer text-foreground"
 				>
-					<FileText className="w-4 h-4" /> Generate Summary Report
+					<WandSparkles className="w-4 h-4" /> Generate Summary
 				</Button>
 			</div>
-			<p className="text-zinc-400 w-full leading-relaxed text-lg">
+			<p className="text-muted-foreground w-full leading-7 md:text-lg text-md">
 				{ipoData.about ||
 					`${ipoData.name} is one of the leading companies in its sector. The company details and financial reports are listed below for analysis.`}
 			</p>
@@ -98,7 +98,7 @@ export default async function IPODetailsPage({
 			{/* IPO Details Table */}
 			<div className="space-y-4">
 				<h2 className="text-xl font-bold">{ipoData.name} IPO Details</h2>
-				<div className="rounded-[1.5rem] border border-white/5 bg-secondary/50 overflow-hidden">
+				<div className="rounded-[1.5rem] border border-foreground/15 dark:border-foreground/5 bg-secondary overflow-hidden">
 					<Table>
 						<TableBody>
 							{[
@@ -113,19 +113,19 @@ export default async function IPODetailsPage({
 							].map((row, i) => (
 								<TableRow
 									key={i}
-									className="border-b border-white/5 hover:bg-white/5"
+									className="border-b border-foreground/15 dark:border-foreground/5 hover:bg-muted-foreground/5"
 								>
-									<TableCell className="font-medium text-zinc-400 py-4 pl-6 w-1/3">
+									<TableCell className="font-medium text-muted-foreground py-4 pl-6 w-1/3">
 										{row.label}
 									</TableCell>
-									<TableCell className="font-bold text-white py-4">
+									<TableCell className="font-bold text-foreground py-4">
 										{row.value}
 									</TableCell>
 								</TableRow>
 							))}
 							{/* DRHP / RHP Links */}
-							<TableRow className="border-b border-white/5 hover:bg-white/5">
-								<TableCell className="font-medium text-zinc-400 py-4 pl-6">
+							<TableRow className="border-b border-foreground/15 dark:border-foreground/5 hover:bg-muted-foreground/5">
+								<TableCell className="font-medium text-muted-foreground py-4 pl-6">
 									DRHP Draft Prospectus
 								</TableCell>
 								<TableCell className="py-4">
@@ -139,12 +139,12 @@ export default async function IPODetailsPage({
 											<Download className="w-3 h-3 mr-1" /> Download
 										</a>
 									) : (
-										<span className="text-zinc-600">N/A</span>
+										<span className="text-muted-foreground">N/A</span>
 									)}
 								</TableCell>
 							</TableRow>
-							<TableRow className="hover:bg-white/5">
-								<TableCell className="font-medium text-zinc-400 py-4 pl-6">
+							<TableRow className="hover:bg-muted-foreground/5">
+								<TableCell className="font-medium text-muted-foreground py-4 pl-6">
 									RHP Draft Prospectus
 								</TableCell>
 								<TableCell className="py-4">
@@ -158,7 +158,7 @@ export default async function IPODetailsPage({
 											<Download className="w-3 h-3 mr-1" /> Download
 										</a>
 									) : (
-										<span className="text-zinc-600">N/A</span>
+										<span className="text-muted-foreground">N/A</span>
 									)}
 								</TableCell>
 							</TableRow>
@@ -170,23 +170,23 @@ export default async function IPODetailsPage({
 			{/* Financial Report Table */}
 			<div className="space-y-4">
 				<h2 className="text-xl font-bold">Company Financial Report</h2>
-				<div className="rounded-[1.5rem] border border-white/5 bg-secondary/50 overflow-hidden">
+				<div className="rounded-[1.5rem] border border-foreground/15 dark:border-foreground/5 bg-secondary overflow-hidden">
 					<Table>
 						<TableHeader>
-							<TableRow className="border-b border-white/5 hover:bg-transparent">
-								<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider py-4 pl-6">
+							<TableRow className="border-b border-foreground/15 dark:border-foreground/5 hover:bg-transparent">
+								<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider py-4 pl-6">
 									Period Ended
 								</TableHead>
-								<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider py-4">
+								<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider py-4">
 									Revenue
 								</TableHead>
-								<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider py-4">
+								<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider py-4">
 									Expense
 								</TableHead>
-								<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider py-4">
+								<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider py-4">
 									PAT
 								</TableHead>
-								<TableHead className="text-xs font-bold text-zinc-500 uppercase tracking-wider py-4">
+								<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider py-4">
 									Assets
 								</TableHead>
 							</TableRow>
@@ -196,21 +196,21 @@ export default async function IPODetailsPage({
 								ipoData.financialReport.map((item, index) => (
 									<TableRow
 										key={index}
-										className="border-b border-white/5 hover:bg-white/5 last:border-0"
+										className="border-b border-foreground/15 dark:border-foreground/5 hover:bg-muted-foreground/5 last:border-0"
 									>
-										<TableCell className="font-bold text-white py-4 pl-6">
+										<TableCell className="font-bold text-foreground py-4 pl-6">
 											{item.periodEnded}
 										</TableCell>
-										<TableCell className="text-zinc-300 py-4 font-medium">
+										<TableCell className="text-foreground py-4 font-medium">
 											{item.revenue}
 										</TableCell>
-										<TableCell className="text-zinc-300 py-4 font-medium">
+										<TableCell className="text-foreground py-4 font-medium">
 											{item.expense}
 										</TableCell>
-										<TableCell className="text-green-400 py-4 font-bold">
+										<TableCell className="text-green-500 py-4 font-bold">
 											{item.pat}
 										</TableCell>
-										<TableCell className="text-zinc-300 py-4 font-medium">
+										<TableCell className="text-foreground py-4 font-medium">
 											{item.assets}
 										</TableCell>
 									</TableRow>
@@ -219,7 +219,7 @@ export default async function IPODetailsPage({
 								<TableRow>
 									<TableCell
 										colSpan={5}
-										className="text-center py-8 text-zinc-500"
+										className="text-center py-8 text-muted-foreground"
 									>
 										No financial data available.
 									</TableCell>

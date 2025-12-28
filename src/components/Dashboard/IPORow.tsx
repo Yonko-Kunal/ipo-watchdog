@@ -28,7 +28,7 @@ const IPORow: React.FC<IPORowProps> = ({ ipo }) => {
 
 	return (
 		<TableRow
-			className={`border-b border-white/5 cursor-pointer ${getRowStyle(
+			className={`border-b border-foreground/15 dark:border-foreground/5 cursor-pointer ${getRowStyle(
 				ipo.status,
 				ipo.date
 			)}`}
@@ -38,23 +38,25 @@ const IPORow: React.FC<IPORowProps> = ({ ipo }) => {
 				<div className="flex items-center gap-4">
 					<Avatar className="h-10 w-10">
 						<AvatarImage src="" alt={ipo.name} />
-						<AvatarFallback className="bg-zinc-800 text-white font-bold">
+						<AvatarFallback className="border border-foreground/15 dark:border-foreground/5 bg-secondary text-foreground font-bold">
 							{ipo.inittial}
 						</AvatarFallback>
 					</Avatar>
 					<div className="flex flex-col gap-1">
-						<span className="font-bold text-white text-base">{ipo.name}</span>
-						<span className="text-xs text-zinc-500">{ipo.type}</span>
+						<span className="font-bold text-foreground text-base">
+							{ipo.name}
+						</span>
+						<span className="text-xs text-muted-foreground">{ipo.type}</span>
 					</div>
 				</div>
 			</TableCell>
-			<TableCell className="font-medium text-zinc-300">
+			<TableCell className="font-medium text-foreground">
 				{ipo.ipoPrice}
 			</TableCell>
-			<TableCell className="font-medium text-zinc-300">
+			<TableCell className="font-medium text-foreground">
 				{ipo.issueSize}
 			</TableCell>
-			<TableCell className="font-medium text-zinc-300">{ipo.date}</TableCell>
+			<TableCell className="font-medium text-foreground">{ipo.date}</TableCell>
 			<TableCell>
 				<Badge
 					variant="outline"
