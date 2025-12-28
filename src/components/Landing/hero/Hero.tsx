@@ -61,17 +61,17 @@ const Hero = () => {
 		linkLabel: string;
 	}) => (
 		<div className="bg-secondary text-card-foreground rounded-4xl border dark:border-white/5 border-black/10 py-6 pb-3 px-3 relative overflow-hidden flex flex-col h-full">
-			<h4 className="text-xl tracking-tight font-bold text-foreground mb-6">
+			<h4 className="text-xl tracking-tight text-center font-bold text-foreground mb-6">
 				{title}
 			</h4>
 			<div className="grow">
 				<Table>
 					<TableHeader>
-						<TableRow className="border-b border-muted-foreground/15 hover:bg-transparent">
-							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider pl-0 h-10">
+						<TableRow className="border-b border-muted-foreground/15 hover:bg-transparent p-3">
+							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider h-10">
 								COMPANY NAME
 							</TableHead>
-							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider text-right pr-0 h-10">
+							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider text-right h-10">
 								IPO DATE
 							</TableHead>
 						</TableRow>
@@ -110,7 +110,7 @@ const Hero = () => {
 										<div className="flex items-center gap-3">
 											<Avatar className="h-10 w-10">
 												<AvatarImage src="" alt={ipo.name} />
-												<AvatarFallback className="bg-neutral-800 text-white font-bold">
+												<AvatarFallback className="dark:bg-neutral-800/80 bg-neutral-200 text-foreground font-bold">
 													{ipo.inittial}
 												</AvatarFallback>
 											</Avatar>
@@ -146,6 +146,17 @@ const Hero = () => {
 
 	return (
 		<Container className="py-10">
+			<div className="flex flex-col items-center justify-center gap-2 md:h-[80vh] h-[60vh]">
+				<h1 className="md:text-9xl text-6xl font-bold text-foreground tracking-tighter md:text-center text-start">
+					Make Your
+					<span className="text-green-500"> IPO </span>
+					Research Effortless
+				</h1>
+				<p className="text-lg mt-2 text-muted-foreground md:text-center text-start">
+					Track subscription statuses, GMP trends, and listing gains for
+					Mainboard and SME IPOs in one unified dashboard.
+				</p>
+			</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<IPOTableCard
 					title="Open Mainboard IPOs"

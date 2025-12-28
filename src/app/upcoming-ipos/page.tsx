@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { getCachedActiveIPOs, IPOItem } from "@/lib/ipoScraper";
 import IPORow from "@/components/Dashboard/IPORow";
+import { Separator } from "@/components/ui/separator";
 
 export const dynamic = "force-dynamic";
 
@@ -94,13 +95,9 @@ const UpcomingIPOPage = async () => {
 			{/* Header Section */}
 			<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 				<div>
-					<h1 className="text-3xl font-bold tracking-tight text-foreground">
+					<h1 className="md:text-3xl text-2xl font-bold tracking-tight text-foreground">
 						Upcoming IPO Market
 					</h1>
-					<p className="text-muted-foreground mt-1 max-w-xl">
-						Complete list of upcoming Initial Public Offerings including both
-						Mainboard and SME IPOs. Plan your investments ahead of time.
-					</p>
 				</div>
 				<Button
 					variant="outline"
@@ -111,6 +108,8 @@ const UpcomingIPOPage = async () => {
 				</Button>
 			</div>
 
+			<Separator />
+
 			{/* Top Section - Stats Cards */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 				{statCards.map((card) => (
@@ -118,7 +117,7 @@ const UpcomingIPOPage = async () => {
 						key={card.id}
 						className="bg-secondary text-card-foreground rounded-4xl border border-foreground/15 dark:border-foreground/5 p-6 relative overflow-hidden"
 					>
-						<div className="flex justify-between items-center">
+						<div className="flex md:flex-col flex-row justify-between items-center md:items-start gap-2">
 							<div className="flex items-center gap-2">
 								<p className="text-sm font-medium text-muted-foreground">
 									{card.label}

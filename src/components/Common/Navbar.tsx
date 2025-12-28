@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { Search, BarChart3 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { BarChart3 } from "lucide-react";
 import Container from "@/components/Common/Container";
 import { ModeToggle } from "./ModeToggle";
 
@@ -14,7 +12,7 @@ const Navbar = () => {
 	];
 
 	return (
-		<nav className="sticky top-0 z-50 w-full border-b border-muted-foreground/15 backdrop-blur-md">
+		<nav className="sticky top-0 z-50 w-full border-b border-muted-foreground/15 bg-background">
 			<Container>
 				<div className="flex h-16 items-center justify-between">
 					{/* Logo & Navigation */}
@@ -43,9 +41,6 @@ const Navbar = () => {
 					{/* Right Side: Search & Actions */}
 					<div className="flex items-center gap-4">
 						<ModeToggle />
-						<Button className="h-10 rounded-full bg-yellow-400 px-6 font-semibold text-black hover:bg-yellow-500 hover:scale-105 transition-all">
-							Subscribe
-						</Button>
 					</div>
 				</div>
 			</Container>

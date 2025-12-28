@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { TrendingUp, Lock, Bell, Download, Activity } from "lucide-react";
 import { getCachedActiveIPOs, IPOItem } from "@/lib/ipoScraper";
 import IPORow from "@/components/Dashboard/IPORow";
+import { Separator } from "@/components/ui/separator";
 
 export const dynamic = "force-dynamic";
 
@@ -68,7 +69,7 @@ const SMEIPOPage = async () => {
 			{/* Header Section */}
 			<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 				<div>
-					<h1 className="text-3xl font-bold tracking-tight text-foreground">
+					<h1 className="md:text-3xl text-2xl font-bold tracking-tight text-foreground">
 						SME IPO Market
 					</h1>
 				</div>
@@ -80,6 +81,8 @@ const SMEIPOPage = async () => {
 					<Download className="w-4 h-4 text-foreground" /> Export Data
 				</Button>
 			</div>
+
+			<Separator />
 
 			{/* Top Section - Stats Cards */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

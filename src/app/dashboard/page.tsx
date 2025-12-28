@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { TrendingUp, Lock, Bell, Download, Activity } from "lucide-react";
 import { getCachedActiveIPOs } from "@/lib/ipoScraper";
 import IPORow from "@/components/Dashboard/IPORow";
+import { Separator } from "@/components/ui/separator";
 
 export const dynamic = "force-dynamic"; // Ensure consistent revalidation check
 
@@ -67,7 +68,7 @@ const Dashboard = async () => {
 			{/* Header Section */}
 			<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 				<div>
-					<h1 className="text-3xl text-foreground font-bold tracking-tight">
+					<h1 className="md:text-3xl text-2xl text-foreground font-bold tracking-tight">
 						Current & Upcoming IPOs
 					</h1>
 				</div>
@@ -79,6 +80,8 @@ const Dashboard = async () => {
 					<Download className="w-4 h-4 text-foreground" /> Export Data
 				</Button>
 			</div>
+
+			<Separator />
 
 			{/* Top Section - Stats Cards */}
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
