@@ -56,7 +56,7 @@
 
 .dark {
   --background: oklch(13.979% 0.00002 271.152);
-  --foreground: oklch(0.985 0 0);
+  --foreground: oklch(98.511% 0.00011 271.152);
   --secondary: oklch(0.2178 0 0);
   --muted-foreground: oklch(69.926% 0.00008 271.152);
 }

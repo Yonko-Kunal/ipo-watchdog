@@ -150,7 +150,26 @@ const Hero = () => {
 				<h1 className="md:text-9xl text-6xl font-bold text-foreground tracking-tighter md:text-center text-start">
 					Make Your
 					<span className="text-green-500"> IPO </span>
-					Research Effortless
+					Research{" "}
+					<svg
+						viewBox="0 0 280 60"
+						className="inline-block h-[0.9em] align-baseline italic"
+						aria-hidden="true"
+					>
+						<text
+							x="45%"
+							y="70%"
+							textAnchor="middle"
+							dominantBaseline="middle"
+							fill="transparent"
+							stroke="currentColor"
+							strokeWidth="0.6"
+							strokeDasharray="2 2"
+							className=" text-6xl tracking-tighter"
+						>
+							effortless
+						</text>
+					</svg>
 				</h1>
 				<p className="text-lg mt-2 text-muted-foreground md:text-center text-start">
 					Track subscription statuses, GMP trends, and listing gains for
