@@ -1,3 +1,5 @@
+import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
+
 import React from "react";
 import Container from "@/components/Common/Container";
 import { Button } from "@/components/ui/button";
@@ -84,10 +86,11 @@ export default async function IPODetailsPage({
 				</div>
 
 				<Button
-					variant="dashed"
+					variant="outline"
 					className="gap-2 rounded-2xl cursor-pointer text-foreground"
 				>
-					<WandSparkles className="w-4 h-4" /> Generate Summary
+					<WandSparkles className="w-4 h-4" />{" "}
+					<AnimatedShinyText>Generate Summary</AnimatedShinyText>
 				</Button>
 			</div>
 			<p className="text-muted-foreground w-full leading-7 md:text-lg text-md">

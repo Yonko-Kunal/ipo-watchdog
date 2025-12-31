@@ -1,5 +1,9 @@
 "use client";
 
+import { MorphingText } from "@/components/ui/morphing-text";
+import { TextAnimate } from "@/components/ui/text-animate";
+import { gsap } from "gsap";
+
 import React, { useEffect, useState } from "react";
 import Container from "@/components/Common/Container";
 import {
@@ -16,6 +20,38 @@ import { IPOItem } from "@/lib/ipoScraper";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
+interface SplitTextElement {
+	key: string;
+	selector: string;
+	type: "chars" | "lines" | "words";
+}
+
+interface SplitTextConfig {
+	type: "chars" | "lines" | "words";
+	mask?: "chars" | "lines" | "words";
+	charsClass?: string;
+	linesClass?: string;
+}
+
+function createSplitTexts(elements: SplitTextElement[]): Record<string, any> {
+	const splits: Record<string, any> = {};
+
+	elements.forEach(({ key, selector, type }) => {
+		const config: SplitTextConfig = { type, mask: type };
+
+		if (type === "chars") config.charsClass = "char";
+		if (type === "lines") config.linesClass = "line";
+		splits[key] = SplitText.create(selector, config);
+	});
+
+	return splits;
+}
 
 const Hero = () => {
 	const [data, setData] = useState<IPOItem[]>([]);
@@ -40,6 +76,59 @@ const Hero = () => {
 
 	useEffect(() => {
 		fetchIPOs();
+	}, []);
+
+	// GSAP SplitText Animation
+	useEffect(() => {
+		const splitElements: SplitTextElement[] = [
+			{ key: "heroTextFirst", selector: ".hero-text-first", type: "lines" },
+			{ key: "heroTextSecond", selector: ".hero-text-second", type: "lines" },
+		];
+
+		const splits = createSplitTexts(splitElements);
+
+		// Add your GSAP animations here
+		// Example:
+
+		gsap.set([splits.heroTextFirst.lines], {
+			y: "100%",
+			opacity: 0,
+			filter: "blur(12px)",
+		});
+		gsap.set([splits.heroTextSecond.lines], {
+			y: "100%",
+			opacity: 0,
+			filter: "blur(12px)",
+		});
+
+		const tl = gsap.timeline();
+
+		tl.to(splits.heroTextFirst.lines, {
+			y: "0",
+			opacity: 1,
+			filter: "blur(0px)",
+			duration: 0.6,
+			stagger: 0.1,
+			ease: "power2.out",
+		}).to(
+			splits.heroTextSecond.lines,
+			{
+				y: "0",
+				opacity: 1,
+				filter: "blur(0px)",
+				duration: 0.76,
+				stagger: 0.1,
+				ease: "circ.out",
+			},
+			"-=0.6"
+		);
+
+		// Cleanup function
+		return () => {
+			Object.values(splits).forEach((split: any) => {
+				if (split?.revert) split.revert();
+			});
+		};
 	}, []);
 
 	const openMainboard = data.filter(
@@ -68,10 +157,10 @@ const Hero = () => {
 				<Table>
 					<TableHeader>
 						<TableRow className="border-b border-muted-foreground/15 hover:bg-transparent p-3">
-							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider h-10">
+							<TableHead className="md:pl-4 pl-0 text-xs font-bold text-muted-foreground uppercase tracking-wider h-10">
 								COMPANY NAME
 							</TableHead>
-							<TableHead className="text-xs font-bold text-muted-foreground uppercase tracking-wider text-right h-10">
+							<TableHead className="md:pr-4 pr-0 text-xs font-bold text-muted-foreground uppercase tracking-wider text-right h-10">
 								IPO DATE
 							</TableHead>
 						</TableRow>
@@ -101,16 +190,16 @@ const Hero = () => {
 								</TableCell>
 							</TableRow>
 						) : (
-							ipos.slice(0, 3).map((ipo, index) => (
+							ipos.map((ipo, index) => (
 								<TableRow
 									key={index}
-									className="border-b border-neutral-500/10 hover:bg-white/5"
+									className="border-b border-neutral-500/10 dark:hover:bg-white/5 hover:bg-black/5"
 								>
-									<TableCell className="py-4 pl-0">
+									<TableCell className="py-4 md:pl-4 pl-0">
 										<div className="flex items-center gap-3">
 											<Avatar className="h-10 w-10">
 												<AvatarImage src="" alt={ipo.name} />
-												<AvatarFallback className="dark:bg-neutral-800/80 bg-neutral-200 text-foreground font-bold">
+												<AvatarFallback className="dark:bg-neutral-700/60 bg-neutral-200 text-foreground font-bold">
 													{ipo.inittial}
 												</AvatarFallback>
 											</Avatar>
@@ -119,7 +208,7 @@ const Hero = () => {
 											</span>
 										</div>
 									</TableCell>
-									<TableCell className="text-right pr-0 font-medium text-muted-foreground text-sm">
+									<TableCell className="text-right md:pr-4 pr-0 font-medium text-muted-foreground text-sm">
 										{ipo.date}
 									</TableCell>
 								</TableRow>
@@ -146,18 +235,23 @@ const Hero = () => {
 
 	return (
 		<Container className="py-10">
-			<div className="flex flex-col items-center justify-center gap-2 md:h-[80vh] h-[60vh]">
-				<h1 className="md:text-9xl text-6xl font-bold text-foreground tracking-tighter md:text-center text-start">
+			<div className="hero-text flex flex-col items-center justify-center md:h-[80vh] h-[60vh]">
+				<h1 className="hero-text-first md:text-9xl text-4xl font-bold text-foreground tracking-tighter md:text-center text-start">
 					Make Your
 					<span className="text-green-500"> IPO </span>
-					Research{" "}
-					<svg
+				</h1>
+				<h1 className="hero-text-second md:text-9xl text-4xl font-bold text-foreground tracking-tighter md:text-center text-start">
+					<span className="whitespace-nowrap">
+						Research
+						<MorphingText texts={["Effortless", "Easy", "Simple"]} />
+					</span>
+					{/* <svg
 						viewBox="0 0 280 60"
 						className="inline-block h-[0.9em] align-baseline italic"
 						aria-hidden="true"
 					>
 						<text
-							x="45%"
+							x="50%"
 							y="70%"
 							textAnchor="middle"
 							dominantBaseline="middle"
@@ -165,16 +259,22 @@ const Hero = () => {
 							stroke="currentColor"
 							strokeWidth="0.6"
 							strokeDasharray="2 2"
-							className=" text-6xl tracking-tighter"
+							className="text-6xl tracking-tighter"
 						>
 							effortless
 						</text>
-					</svg>
+					</svg> */}
 				</h1>
-				<p className="text-lg mt-2 text-muted-foreground md:text-center text-start">
+				<TextAnimate
+					className="mt-4 text-lg text-muted-foreground md:text-center text-start "
+					delay={0.78}
+					duration={0.7}
+					animation="blurInUp"
+					by="word"
+				>
 					Track subscription statuses, GMP trends, and listing gains for
 					Mainboard and SME IPOs in one unified dashboard.
-				</p>
+				</TextAnimate>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<IPOTableCard
