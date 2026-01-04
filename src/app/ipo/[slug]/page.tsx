@@ -13,7 +13,7 @@ import {
 	TableHeader,
 } from "@/components/ui/table";
 import { WandSparkles, Loader2, ArrowLeft, Download } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { getCachedIPOBySlug, IPOItem } from "@/lib/ipoScraper";
 
 // We need a server action to fetch data to keep `ipoScraper` (which might use Node APIs) on server
@@ -58,7 +58,12 @@ export default async function IPODetailsPage({
 			<div className="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-foreground/15 dark:border-foreground/5 pb-8">
 				<div className="space-y-4 max-w-3xl">
 					<div className="flex md:flex-row flex-col md:items-center items-start gap-3">
-						<h1 className="text-4xl font-bold tracking-tight">
+						<h1
+							className="text-4xl font-bold tracking-tight"
+							style={{
+								viewTransitionName: `ipo-title-${slug}`,
+							}}
+						>
 							{ipoData.name} IPO Details
 						</h1>
 						<Badge

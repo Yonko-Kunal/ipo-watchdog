@@ -78,3 +78,51 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom fonts from public folder */
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom font utilities */
+.font-satoshi {
+  font-family: 'Satoshi', sans-serif;
+}
+
+.font-zalando {
+  font-family: var(--font-zalando-sans-expanded), sans-serif;
+}
+
+/* ========================================
+   View Transitions API - Shared Element Transitions
+   ======================================== 
+   
+   How it works:
+   1. Elements with matching `view-transition-name` are identified as "shared"
+   2. The browser captures snapshots of both old and new states
+   3. CSS animations control how elements morph between states
+   
+   The ::view-transition pseudo-elements:
+   - ::view-transition-old(name) - The snapshot of the element before navigation
+   - ::view-transition-new(name) - The snapshot of the element after navigation
+   - ::view-transition-group(name) - Container that animates position/size
+   - ::view-transition-image-pair(name) - Contains both old and new snapshots
+*/
+
+/* Default page transition - quick fade */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: ease-out;
+}
+
+/* Shared element transition for all named elements - smooth morph animation */
+/* The view-transition-group animates the position and size between states */
+::view-transition-group(*) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}

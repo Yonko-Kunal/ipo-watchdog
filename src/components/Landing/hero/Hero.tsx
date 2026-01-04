@@ -1,6 +1,6 @@
 "use client";
 
-import { MorphingText } from "@/components/ui/morphing-text";
+// import { MorphingText } from "@/components/ui/morphing-text";
 import { TextAnimate } from "@/components/ui/text-animate";
 import { gsap } from "gsap";
 
@@ -17,7 +17,7 @@ import {
 import { Loader2, ArrowUpRight, ChartNoAxesCombined } from "lucide-react";
 import axios from "axios";
 import { IPOItem } from "@/lib/ipoScraper";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
@@ -53,31 +53,7 @@ function createSplitTexts(elements: SplitTextElement[]): Record<string, any> {
 	return splits;
 }
 
-const Hero = () => {
-	const [data, setData] = useState<IPOItem[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-
-	const fetchIPOs = async () => {
-		try {
-			setLoading(true);
-			const response = await axios.get("/api/ipo");
-			if (response.data.success) {
-				setData(response.data.data);
-			} else {
-				setError("Failed to fetch IPO data");
-			}
-		} catch (err) {
-			setError("Something went wrong. Please try again later.");
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		fetchIPOs();
-	}, []);
-
+const HeroHeader = React.memo(() => {
 	// GSAP SplitText Animation
 	useEffect(() => {
 		const splitElements: SplitTextElement[] = [
@@ -88,8 +64,6 @@ const Hero = () => {
 		const splits = createSplitTexts(splitElements);
 
 		// Add your GSAP animations here
-		// Example:
-
 		gsap.set([splits.heroTextFirst.lines], {
 			y: "100%",
 			opacity: 0,
@@ -129,6 +103,58 @@ const Hero = () => {
 				if (split?.revert) split.revert();
 			});
 		};
+	}, []);
+
+	return (
+		<div className="hero-text flex flex-col items-center justify-center md:h-[95vh] h-[40vh]">
+			<h1 className="hero-text-first md:text-9xl text-3xl font-bold text-foreground tracking-tighter md:text-center text-start">
+				Make Your
+				<span className="text-green-500"> IPO </span>
+			</h1>
+			<h1 className="hero-text-second md:text-9xl text-3xl font-bold text-foreground tracking-tighter md:text-center text-start">
+				Research Effortless
+				{/* <span className="whitespace-nowrap">
+						Research
+						<MorphingText texts={["Effortless", "Easy", "Simple"]} />
+					</span> */}
+			</h1>
+			<TextAnimate
+				className="mt-4 md:text-lg text-base text-muted-foreground md:text-center text-center font-satoshi"
+				delay={0.78}
+				duration={0.7}
+				animation="blurInUp"
+				by="word"
+			>
+				Track subscription statuses, GMP trends, and listing gains for Mainboard
+				and SME IPOs in one unified dashboard.
+			</TextAnimate>
+		</div>
+	);
+});
+
+const Hero = () => {
+	const [data, setData] = useState<IPOItem[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	const fetchIPOs = async () => {
+		try {
+			setLoading(true);
+			const response = await axios.get("/api/ipo");
+			if (response.data.success) {
+				setData(response.data.data);
+			} else {
+				setError("Failed to fetch IPO data");
+			}
+		} catch (err) {
+			setError("Something went wrong. Please try again later.");
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		fetchIPOs();
 	}, []);
 
 	const openMainboard = data.filter(
@@ -234,48 +260,8 @@ const Hero = () => {
 	);
 
 	return (
-		<Container className="py-10">
-			<div className="hero-text flex flex-col items-center justify-center md:h-[80vh] h-[60vh]">
-				<h1 className="hero-text-first md:text-9xl text-4xl font-bold text-foreground tracking-tighter md:text-center text-start">
-					Make Your
-					<span className="text-green-500"> IPO </span>
-				</h1>
-				<h1 className="hero-text-second md:text-9xl text-4xl font-bold text-foreground tracking-tighter md:text-center text-start">
-					<span className="whitespace-nowrap">
-						Research
-						<MorphingText texts={["Effortless", "Easy", "Simple"]} />
-					</span>
-					{/* <svg
-						viewBox="0 0 280 60"
-						className="inline-block h-[0.9em] align-baseline italic"
-						aria-hidden="true"
-					>
-						<text
-							x="50%"
-							y="70%"
-							textAnchor="middle"
-							dominantBaseline="middle"
-							fill="transparent"
-							stroke="currentColor"
-							strokeWidth="0.6"
-							strokeDasharray="2 2"
-							className="text-6xl tracking-tighter"
-						>
-							effortless
-						</text>
-					</svg> */}
-				</h1>
-				<TextAnimate
-					className="mt-4 text-lg text-muted-foreground md:text-center text-start "
-					delay={0.78}
-					duration={0.7}
-					animation="blurInUp"
-					by="word"
-				>
-					Track subscription statuses, GMP trends, and listing gains for
-					Mainboard and SME IPOs in one unified dashboard.
-				</TextAnimate>
-			</div>
+		<Container className="pb-10 pt-0">
+			<HeroHeader />
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<IPOTableCard
 					title="Open Mainboard IPOs"

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Lock, Bell, Download, Activity } from "lucide-react";
+import { Lock, Bell, Download, Activity } from "lucide-react";
 import { getCachedActiveIPOs } from "@/lib/ipoScraper";
 import IPORow from "@/components/Dashboard/IPORow";
 import { Separator } from "@/components/ui/separator";

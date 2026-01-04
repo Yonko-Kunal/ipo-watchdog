@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 import { ThemeProvider } from "@/components/Common/theme-provider";
+import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -22,23 +23,25 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
-				className={`${inter.className} antialiased min-h-screen flex flex-col`}
-				suppressHydrationWarning
-			>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange={false}
-					storageKey="theme"
+		<ViewTransitions>
+			<html lang="en" suppressHydrationWarning>
+				<body
+					className={`${inter.className} antialiased min-h-screen flex flex-col`}
+					suppressHydrationWarning
 				>
-					<Navbar />
-					<div className="flex-1">{children}</div>
-					<Footer />
-				</ThemeProvider>
-			</body>
-		</html>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange={false}
+						storageKey="theme"
+					>
+						<Navbar />
+						<div className="flex-1">{children}</div>
+						<Footer />
+					</ThemeProvider>
+				</body>
+			</html>
+		</ViewTransitions>
 	);
 }

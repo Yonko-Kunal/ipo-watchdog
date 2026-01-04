@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import { IPOItem } from "@/lib/ipoScraper";
 import { slugify } from "@/lib/utils";
+import { useTransitionRouter } from "next-view-transitions";
 import {
 	getGmpInfo,
 	getTrendIcon,
@@ -19,7 +20,7 @@ interface IPORowProps {
 }
 
 const IPORow: React.FC<IPORowProps> = ({ ipo }) => {
-	const router = useRouter();
+	const router = useTransitionRouter();
 	const gmpInfo = getGmpInfo(ipo.gmp);
 
 	const handleRowClick = () => {
@@ -43,7 +44,14 @@ const IPORow: React.FC<IPORowProps> = ({ ipo }) => {
 						</AvatarFallback>
 					</Avatar>
 					<div className="flex flex-col gap-1">
-						<span className="font-bold text-foreground text-base">
+						{/* view-transition-name enables Shared Element Transitions via the View Transitions API */}
+						{/* The unique name links this element to its counterpart on the details page */}
+						<span
+							className="font-bold text-foreground text-base"
+							style={{
+								viewTransitionName: `ipo-title-${slugify(ipo.name)}`,
+							}}
+						>
 							{ipo.name}
 						</span>
 						<span className="text-xs text-muted-foreground">{ipo.type}</span>

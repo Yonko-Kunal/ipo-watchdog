@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
-import { BarChart3 } from "lucide-react";
+import { BarChart3, Menu, X } from "lucide-react";
 import Container from "@/components/Common/Container";
 import { ModeToggle } from "./ModeToggle";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 const Navbar = () => {
 	const navLinks = [
 		{ name: "Dashboard", href: "/dashboard" },
@@ -16,6 +16,7 @@ const Navbar = () => {
 	];
 
 	const [hovered, setHovered] = useState<number | null>(null);
+	const [menuOpen, setMenuOpen] = useState(false);
 	const pathname = usePathname();
 
 	return (
@@ -68,8 +69,42 @@ const Navbar = () => {
 					{/* Right Side: Search & Actions */}
 					<div className="flex items-center gap-4">
 						<ModeToggle />
+						<button
+							className="block md:hidden text-muted-foreground hover:text-foreground transition-colors"
+							onClick={() => setMenuOpen(!menuOpen)}
+						>
+							{menuOpen ? <X size={24} /> : <Menu size={24} />}
+						</button>
 					</div>
 				</div>
+
+				<AnimatePresence>
+					{menuOpen && (
+						<motion.div
+							initial={{ height: 0, opacity: 0 }}
+							animate={{ height: "auto", opacity: 1 }}
+							exit={{ height: 0, opacity: 0 }}
+							className="overflow-hidden md:hidden"
+						>
+							<div className="flex flex-col gap-4 py-4 pb-6">
+								{navLinks.map((link, idx) => (
+									<Link
+										key={idx}
+										href={link.href}
+										className={`text-sm font-medium transition-colors hover:text-foreground ${
+											pathname === link.href
+												? "text-foreground"
+												: "text-muted-foreground"
+										}`}
+										onClick={() => setMenuOpen(false)}
+									>
+										{link.name}
+									</Link>
+								))}
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</Container>
 		</motion.nav>
 	);
