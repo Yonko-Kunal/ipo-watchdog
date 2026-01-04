@@ -54,6 +54,7 @@ export interface IPOItem {
 	rhpProspectus?: string;
 	financialReport?: FinancialPeriod[];
 	about?: string;
+	innerPageUrl?: string; // [NEW] For optimization
 }
 
 // ==========================================
@@ -342,6 +343,7 @@ export async function getActiveIPOs(): Promise<IPOItem[]> {
 							rhpProspectus: details.rhpProspectus,
 							financialReport: details.financialReport,
 							about: details.about,
+							innerPageUrl: link, // [NEW] Store the link
 						};
 					});
 				}
@@ -371,92 +373,34 @@ export async function getActiveIPOs(): Promise<IPOItem[]> {
 // ==========================================
 export async function getIPOBySlug(slug: string): Promise<IPOItem | null> {
 	try {
-		// 1. Fetch Main Calendar (Lightweight)
-		const url = "https://ipowatch.in/upcoming-ipo-calendar-ipo-list/";
-		const { data } = await axios.get(url, {
-			headers: { "User-Agent": "Mozilla/5.0" },
-		});
-		const $ = cheerio.load(data);
+		// 1. Get the list directly from our Cached function to reuse data
+		// This avoids re-scraping the main table and GMP for every detail page request
+		const allIPOs = await getCachedActiveIPOs();
 
-		// 2. Find the row that matches the slug
-		let targetLink: string | undefined;
-		let basicInfo: Partial<IPOItem> = {};
+		// 2. Find the matching IPO
+		const matchedIPO = allIPOs.find((ipo) => {
+			const cleanName = ipo.name;
+			const currentSlug = cleanName
+				.toLowerCase()
+				.trim()
+				.replace(/\s+/g, "-")
+				.replace(/[^\w\-]+/g, "")
+				.replace(/\-\-+/g, "-");
 
-		// We need to check both Mainboard (Table 0) and SME (Table 1)
-		// A simple loop over tables is sufficient
-		let found = false;
-
-		$("table").each((tIdx, table) => {
-			if (found) return;
-			$(table)
-				.find("tr")
-				.each((rIdx, row) => {
-					if (rIdx === 0) return;
-					const tds = $(row).find("td");
-					if (tds.length >= 4) {
-						const nameRaw = $(tds[0]).text().trim();
-						const cleanName = nameRaw.replace(" IPO", "").trim();
-
-						// Simple slugify for matching
-						const currentSlug = cleanName
-							.toLowerCase()
-							.trim()
-							.replace(/\s+/g, "-") // Replace spaces with -
-							.replace(/[^\w\-]+/g, "") // Remove all non-word chars
-							.replace(/\-\-+/g, "-"); // Replace multiple - with single -
-
-						if (currentSlug === slug) {
-							targetLink = $(tds[0]).find("a").attr("href");
-							basicInfo = {
-								name: cleanName,
-								inittial: cleanName.charAt(0).toUpperCase(),
-								status: $(tds[1]).text().trim(),
-								type: tIdx === 0 ? "Mainboard" : "SME",
-								ipoPrice: $(tds[3]).text().trim() || "TBA",
-								date: $(tds[2])
-									.text()
-									.trim()
-									.replace(" to ", " - ")
-									.replace("–", " - "),
-							};
-							found = true;
-							return false; // Break row loop
-						}
-					}
-				});
+			return currentSlug === slug;
 		});
 
-		if (!targetLink) return null;
+		if (!matchedIPO) return null;
 
-		// 3. Fetch GMP (optional)
-		const gmpMap = await scrapeGmpMap();
-		const matchName =
-			basicInfo.name?.toLowerCase().replace("ipo", "").trim() || "";
-		const gmpData = gmpMap[matchName];
+		// 3. If we have the details already (from the main scrape), we check if we need more
+		// The main scrape ALREADY fetches inner details (ipoOpenDate, etc.)
+		// BUT `fetchInnerPageDetails` logic in `processTable` is actually what fills `ipoOpenDate` etc.
+		// So `matchedIPO` is ALREADY FULLY POPULATED!
+		// We don't need to do ANYTHING else unless `allIPOs` was a "summary-only" list.
+		// In `getActiveIPOs`, we do `rowPromises.push(async () => { const details = await fetchInnerPageDetails(link); ... })`
+		// So `getCachedActiveIPOs` returns FULL DETAILS.
 
-		const currentGmp =
-			gmpData && gmpData.gmpValue && !gmpData.gmpValue.includes("-")
-				? gmpData.gmpValue
-				: "₹0";
-		const currentPercent =
-			gmpData && gmpData.gmpPercent && !gmpData.gmpPercent.includes("-")
-				? gmpData.gmpPercent
-				: "0%";
-
-		// 4. Fetch Deep Details
-		const details = await fetchInnerPageDetails(targetLink);
-
-		// 5. Merge
-		return {
-			name: basicInfo.name!,
-			inittial: basicInfo.inittial!,
-			status: basicInfo.status!,
-			type: basicInfo.type!,
-			ipoPrice: basicInfo.ipoPrice!,
-			date: basicInfo.date!,
-			gmp: [{ currentGmp, currentGmpPercentage: currentPercent }],
-			...details,
-		};
+		return matchedIPO;
 	} catch (e) {
 		console.error("Error fetching single IPO:", e);
 		return null;
@@ -473,8 +417,9 @@ export const getCachedActiveIPOs = unstable_cache(
 	{ revalidate: 3600, tags: ["active-ipos"] }
 );
 
-export const getCachedIPOBySlug = unstable_cache(
-	async (slug: string) => getIPOBySlug(slug),
-	["ipo-details"],
-	{ revalidate: 3600, tags: ["ipo-details"] }
-);
+export const getCachedIPOBySlug = async (slug: string) => {
+	return unstable_cache(async () => getIPOBySlug(slug), ["ipo-details", slug], {
+		revalidate: 3600,
+		tags: ["ipo-details"],
+	})();
+};
