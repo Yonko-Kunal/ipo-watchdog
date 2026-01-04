@@ -19,6 +19,7 @@ import {
 	Calendar,
 } from "lucide-react";
 import { getCachedActiveIPOs, IPOItem } from "@/lib/ipoScraper";
+import BackButton from "@/components/Common/BackButton";
 import IPORow from "@/components/Dashboard/IPORow";
 import { Separator } from "@/components/ui/separator";
 
@@ -92,6 +93,11 @@ const UpcomingIPOPage = async () => {
 
 	return (
 		<Container className="py-10 space-y-8 text-foreground">
+			{/* Breadcrumb / Back */}
+			<div className="flex items-center">
+				<BackButton label="Back" />
+			</div>
+
 			{/* Header Section */}
 			<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
 				<div>

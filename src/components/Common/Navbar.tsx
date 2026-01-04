@@ -11,8 +11,8 @@ const Navbar = () => {
 	const navLinks = [
 		{ name: "Dashboard", href: "/dashboard" },
 		{ name: "Upcoming", href: "/upcoming-ipos" },
-		{ name: "News", href: "/news" },
-		{ name: "About", href: "/about" },
+		{ name: "News", href: "/#" },
+		{ name: "About", href: "/#" },
 	];
 
 	const [hovered, setHovered] = useState<number | null>(null);

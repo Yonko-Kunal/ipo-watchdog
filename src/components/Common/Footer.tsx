@@ -12,19 +12,19 @@ const Footer = () => {
 					</p>
 					<div className="flex items-center md:gap-6 gap-3">
 						<Link
-							href="/privacy"
+							href="/"
 							className="text-muted-foreground hover:text-neutral-400 md:text-sm text-xs transition-colors"
 						>
 							Privacy Policy
 						</Link>
 						<Link
-							href="/terms"
+							href="/"
 							className="text-muted-foreground hover:text-neutral-400 md:text-sm text-xs transition-colors"
 						>
 							Terms of Service
 						</Link>
 						<Link
-							href="/contact"
+							href="/"
 							className="text-muted-foreground hover:text-neutral-400 md:text-sm text-xs transition-colors"
 						>
 							Contact

@@ -15,6 +15,7 @@ import {
 import { WandSparkles, Loader2, ArrowLeft, Download } from "lucide-react";
 import { Link } from "next-view-transitions";
 import { getCachedIPOBySlug, IPOItem } from "@/lib/ipoScraper";
+import BackButton from "@/components/Common/BackButton";
 
 // We need a server action to fetch data to keep `ipoScraper` (which might use Node APIs) on server
 // But for now, since `ipoScraper` uses axios/cheerio which can run in Node, we should use a Server Component or Route Handler.
@@ -47,12 +48,9 @@ export default async function IPODetailsPage({
 	return (
 		<Container className="py-10 space-y-8 text-foreground min-h-screen">
 			{/* Breadcrumb / Back */}
-			<Link
-				href="/dashboard"
-				className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-			>
-				<ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
-			</Link>
+			<div className="flex items-center">
+				<BackButton label="Back" />
+			</div>
 
 			{/* Header Section */}
 			<div className="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-foreground/15 dark:border-foreground/5 pb-8">
